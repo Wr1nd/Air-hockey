@@ -18,11 +18,21 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+       
+
         var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         worldPos.z = 0;
 
         var target = Vector3.MoveTowards(transform.position, worldPos, speed * Time.fixedDeltaTime);
 
-        rb.MovePosition(target);
+        var targetViewPos = Camera.main.WorldToViewportPoint(target);
+        if (targetViewPos.x < 0.5f)
+        {
+            rb.velocity = Vector2.zero;
+        }
+        else
+        {
+            rb.MovePosition(target);
+        }
     }
 }
